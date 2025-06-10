@@ -1,13 +1,17 @@
-import { useState } from 'react'
-import './App.css'
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AdminDeliveryAuth from "./Pages/AdminDeliveryAuth/StaffAuthPages";
 
 function App() {
-
   return (
     <>
-     <div></div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<AdminDeliveryAuth />}></Route>
+        </Routes>
+      </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
