@@ -429,36 +429,36 @@ const StaffAuthPages = () => {
   };
 
   // Determine decoration image and text based on currentView
-  const getDecorationContent = () => {
-    let image = heroAdmin; // Default
-    let title = "Staff Portal";
-    let text = "Select your role to access the internal system.";
+  // const getDecorationContent = () => {
+  //   let image = heroAdmin; // Default
+  //   let title = "Staff Portal";
+  //   let text = "Select your role to access the internal system.";
 
-    if (currentView.startsWith("admin")) {
-      image = heroAdmin;
-      title = currentView === "adminLogin" ? "Admin Login" : "Admin Signup";
-      text = currentView === "adminLogin"
-        ? "Sign in to manage the entire liquor delivery operation."
-        : "Register to become an administrator.";
-    } else if (currentView.startsWith("delivery")) {
-      image = heroDelivery;
-      title = currentView === "deliveryLogin" ? "Delivery Login" : "Delivery Signup";
-      text = currentView === "deliveryLogin"
-        ? "Sign in to manage and track your delivery routes."
-        : "Join our team as a delivery person.";
-    }
+  //   if (currentView.startsWith("admin")) {
+  //     image = heroAdmin;
+  //     title = currentView === "adminLogin" ? "Admin Login" : "Admin Signup";
+  //     text = currentView === "adminLogin"
+  //       ? "Sign in to manage the entire liquor delivery operation."
+  //       : "Register to become an administrator.";
+  //   } else if (currentView.startsWith("delivery")) {
+  //     image = heroDelivery;
+  //     title = currentView === "deliveryLogin" ? "Delivery Login" : "Delivery Signup";
+  //     text = currentView === "deliveryLogin"
+  //       ? "Sign in to manage and track your delivery routes."
+  //       : "Join our team as a delivery person.";
+  //   }
 
-    return { image, title, text };
-  };
+  //   return { image, title, text };
+  // };
 
-  const { image: decorationImage, title: decorationTitle, text: decorationText } = getDecorationContent();
+  // const { image: decorationImage, title: decorationTitle, text: decorationText } = getDecorationContent();
 
   return (
     <div className="auth-container section">
       <div className="auth-card">
         {renderAuthForm()}
 
-        <div className="auth-decoration">
+        {/* <div className="auth-decoration">
           <div className="decoration-content">
             <img
               src={decorationImage}
@@ -473,7 +473,7 @@ const StaffAuthPages = () => {
               </button>
             )}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -1,7 +1,3 @@
-/* StaffApp/src/styles/StaffAuthPages.css */
-
-/* Define CSS Variables based on customer-side styles */
-/* If these are already defined globally in your Staff App, you can remove this :root block */
 /* ===== AUTH CONTAINER ===== */
 .auth-container {
   display: flex;
