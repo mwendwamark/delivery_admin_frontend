@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Eye,
   EyeOff,
@@ -250,6 +251,8 @@ const StaffAuthPages = () => {
   const [message, setMessage] = useState({ type: "", text: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const navigate = useNavigate();
+
 
   // Reusable login form state (email, password will be common)
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -313,9 +316,9 @@ const StaffAuthPages = () => {
 
       // Redirect based on the actual logged-in role
       if (response.user.role === 1) { // Admin role
-        window.location.href = "/admin/dashboard"; // Example: root of admin dashboard
+        navigate ("/products"); // Example: root of admin dashboard
       } else if (response.user.role === 2) { // Delivery Person role
-        window.location.href = "/delivery/dashboard"; // Example: root of delivery dashboard
+        navigate ("/delivery/dashboard"); // Example: root of delivery dashboard
       }
     } catch (error) {
       showMessage("error", error.message || "Login failed");

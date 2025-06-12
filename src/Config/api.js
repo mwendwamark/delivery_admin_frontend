@@ -6,6 +6,7 @@ const API_ENDPOINTS = {
     SIGN_UP: `${API_BASE_URL}/users`,
     SIGN_IN: `${API_BASE_URL}/users/sign_in`,
     SIGN_OUT: `${API_BASE_URL}/users/sign_out`,
+    PRODUCTS: `${API_BASE_URL}/products`
   },
 };
 
