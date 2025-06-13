@@ -152,7 +152,6 @@ a:hover {
   font-size: 1.6rem;
 }
 
-
 .subtitle-center {
   display: flex;
   align-items: center;
@@ -172,8 +171,13 @@ a:hover {
 }
 
 @keyframes sparkle {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.1) rotate(180deg); }
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.1) rotate(180deg);
+  }
 }
 
 /* .section-title {

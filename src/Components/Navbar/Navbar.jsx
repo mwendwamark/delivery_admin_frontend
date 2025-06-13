@@ -64,7 +64,7 @@ const Navbar = () => {
   useEffect(() => {
     getAdminDataFromSession();
 
-    // Optionally listen for storage changes if auth happens in another tab/window
+    // Optionally listen for storage chang happens in another tab/window
     const handleStorageChange = () => {
       getAdminDataFromSession();
     };
@@ -204,7 +204,7 @@ const Navbar = () => {
                   {getInitials(adminName)}
                 </div>
               ) : (
-                <NavLink to="/admin/auth" className="nav-login_btn btn btn-primary">
+                <NavLink to="/" className="nav-login_btn btn btn-primary">
                   <RiUserLine className="nav-right_icon-large" /> <p>Login</p>
                 </NavLink>
               )}
@@ -248,7 +248,7 @@ const Navbar = () => {
                   {getInitials(adminName)}
                 </div>
               ) : (
-                <NavLink to="/admin/auth" className="nav-login" onClick={closeMenu}>
+                <NavLink to="/" className="nav-login" onClick={closeMenu}>
                   <RiUserLine className="mobile-header-icon" /> 
                 </NavLink>
               )}
