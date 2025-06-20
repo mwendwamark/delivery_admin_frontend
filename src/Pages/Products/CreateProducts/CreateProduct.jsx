@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductVariantForm from "./ProductVariantForm"; // Import the new component
 import "./CreateProduct.css";
@@ -93,7 +93,7 @@ const CreateProduct = () => {
     setImagePreview(null);
     setCreatedProductId(null);
     setCurrentStep(1); // Go back to step 1 for new product
-    navigate('/admin/products'); // Example: navigate to product list after full process
+    navigate('/products'); // Example: navigate to product list after full process
   };
 
   const handleVariantFormError = (errorMessage) => {

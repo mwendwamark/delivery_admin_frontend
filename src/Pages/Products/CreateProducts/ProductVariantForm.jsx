@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { productsAPI } from "../../../Config/api"; // Import your API helper
+import "./CreateProduct.css"
 
 const ProductVariantForm = ({ productId, onVariantsAdded, onError, onBack }) => {
   const [productVariants, setProductVariants] = useState([
