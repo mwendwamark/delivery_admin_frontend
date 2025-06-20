@@ -79,18 +79,33 @@ const AdminProductVariantsManagement = () => {
     setSuccessMessage(null);
     try {
       // Input validation for new variant
-      if (!newVariant.size || !newVariant.price || newVariant.stock === null || newVariant.stock === "") {
-        throw new Error("Please fill in all fields (Size, Price, Stock) for the new variant.");
+      if (
+        !newVariant.size ||
+        !newVariant.price ||
+        newVariant.stock === null ||
+        newVariant.stock === ""
+      ) {
+        throw new Error(
+          "Please fill in all fields (Size, Price, Stock) for the new variant."
+        );
       }
-      if (isNaN(parseFloat(newVariant.price)) || parseFloat(newVariant.price) <= 0) {
+      if (
+        isNaN(parseFloat(newVariant.price)) ||
+        parseFloat(newVariant.price) <= 0
+      ) {
         throw new Error("Price must be a positive number.");
       }
-      if (isNaN(parseInt(newVariant.stock, 10)) || parseInt(newVariant.stock, 10) < 0) {
+      if (
+        isNaN(parseInt(newVariant.stock, 10)) ||
+        parseInt(newVariant.stock, 10) < 0
+      ) {
         throw new Error("Stock must be a non-negative integer.");
       }
 
-
-      const addedVariant = await productsAPI.createProductVariant(productId, newVariant);
+      const addedVariant = await productsAPI.createProductVariant(
+        productId,
+        newVariant
+      );
       setVariants((prev) => [...prev, addedVariant]);
       setNewVariant({ size: "", price: "", availability: true, stock: 0 }); // Reset form
       setShowAddForm(false); // Hide form after adding
@@ -110,17 +125,33 @@ const AdminProductVariantsManagement = () => {
     setSuccessMessage(null);
     try {
       // Input validation for edited variant
-      if (!editVariant.size || !editVariant.price || editVariant.stock === null || editVariant.stock === "") {
-        throw new Error("Please fill in all fields (Size, Price, Stock) for the variant.");
+      if (
+        !editVariant.size ||
+        !editVariant.price ||
+        editVariant.stock === null ||
+        editVariant.stock === ""
+      ) {
+        throw new Error(
+          "Please fill in all fields (Size, Price, Stock) for the variant."
+        );
       }
-      if (isNaN(parseFloat(editVariant.price)) || parseFloat(editVariant.price) <= 0) {
+      if (
+        isNaN(parseFloat(editVariant.price)) ||
+        parseFloat(editVariant.price) <= 0
+      ) {
         throw new Error("Price must be a positive number.");
       }
-      if (isNaN(parseInt(editVariant.stock, 10)) || parseInt(editVariant.stock, 10) < 0) {
+      if (
+        isNaN(parseInt(editVariant.stock, 10)) ||
+        parseInt(editVariant.stock, 10) < 0
+      ) {
         throw new Error("Stock must be a non-negative integer.");
       }
 
-      const updatedVariant = await productsAPI.updateProductVariant(editingVariantId, editVariant);
+      const updatedVariant = await productsAPI.updateProductVariant(
+        editingVariantId,
+        editVariant
+      );
       setVariants((prev) =>
         prev.map((v) => (v.id === editingVariantId ? updatedVariant : v))
       );
@@ -135,7 +166,12 @@ const AdminProductVariantsManagement = () => {
   };
 
   const handleDeleteVariant = async (variantId) => {
-    if (!window.confirm("Are you sure you want to delete this variant? This action cannot be undone.")) return;
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this variant? This action cannot be undone."
+      )
+    )
+      return;
     setSubmitting(true);
     setError(null);
     setSuccessMessage(null);
@@ -168,10 +204,15 @@ const AdminProductVariantsManagement = () => {
   };
 
   if (loading) {
-    return <div className="variants-container loading-state">Loading product variants...</div>;
+    return (
+      <div className="variants-container loading-state">
+        Loading product variants...
+      </div>
+    );
   }
 
-  if (error && !successMessage) { // Only show error if no success message
+  if (error && !successMessage) {
+    // Only show error if no success message
     return <div className="variants-container error-state">{error}</div>;
   }
 
@@ -187,13 +228,17 @@ const AdminProductVariantsManagement = () => {
         </button>
       </div>
 
-      {successMessage && <div className="success-message">{successMessage}</div>}
+      {successMessage && (
+        <div className="success-message">{successMessage}</div>
+      )}
       {error && <div className="error-message">{error}</div>}
 
       <div className="variants-list-section">
         <h3>Current Variants</h3>
         {variants.length === 0 ? (
-          <p className="no-variants">No variants found for this product. Add one below!</p>
+          <p className="no-variants">
+            No variants found for this product. Add one below!
+          </p>
         ) : (
           <div className="variants-table-wrapper">
             <table className="variants-table">
@@ -270,9 +315,13 @@ const AdminProductVariantsManagement = () => {
                       // Display mode row
                       <>
                         <td data-label="Size">{variant.size}</td>
-                        <td data-label="Price">${parseFloat(variant.price).toFixed(2)}</td>
+                        <td data-label="Price">
+                          ${parseFloat(variant.price).toFixed(2)}
+                        </td>
                         <td data-label="Stock">{variant.stock}</td>
-                        <td data-label="Available">{variant.availability ? "Yes" : "No"}</td>
+                        <td data-label="Available">
+                          {variant.availability ? "Yes" : "No"}
+                        </td>
                         <td data-label="Actions">
                           <button
                             onClick={() => startEditing(variant)}
@@ -305,7 +354,12 @@ const AdminProductVariantsManagement = () => {
           onClick={() => {
             setShowAddForm((prev) => !prev);
             setEditingVariantId(null); // Close editing if opening add form
-            setNewVariant({ size: "", price: "", availability: true, stock: 0 }); // Reset new variant form
+            setNewVariant({
+              size: "",
+              price: "",
+              availability: true,
+              stock: 0,
+            }); // Reset new variant form
           }}
           className="toggle-add-form-btn"
         >
