@@ -64,7 +64,10 @@ const CreateProduct = () => {
     }
 
     try {
-      const response = await productsAPI.createProduct(productFormData, imageFile);
+      const response = await productsAPI.createProduct(
+        productFormData,
+        imageFile
+      );
 
       if (response && response.id) {
         setCreatedProductId(response.id); // Store the newly created product ID
@@ -86,14 +89,19 @@ const CreateProduct = () => {
   const handleVariantsAdded = () => {
     // Reset all forms and navigate or show success message
     setProductFormData({
-      name: "", category: "", subcategory: "", brand: "",
-      country: "", abv: "", description: "",
+      name: "",
+      category: "",
+      subcategory: "",
+      brand: "",
+      country: "",
+      abv: "",
+      description: "",
     });
     setImageFile(null);
     setImagePreview(null);
     setCreatedProductId(null);
     setCurrentStep(1); // Go back to step 1 for new product
-    navigate('/products'); // Example: navigate to product list after full process
+    navigate("/products"); // Example: navigate to product list after full process
   };
 
   const handleVariantFormError = (errorMessage) => {
@@ -108,143 +116,150 @@ const CreateProduct = () => {
   return (
     <>
       <section className="product-management_page container section">
-        <div className="product-management">
-          <h2>
-            {currentStep === 1
-              ? "Add New Product"
-              : `Add Variants for ${productFormData.name || "Product"}`}
-          </h2>
-          {error && <div className="error-message">{error}</div>}
+        <div className="product-management_page-contents">
+          <div className="product-management">
+            <h2>
+              {currentStep === 1
+                ? "Add New Product"
+                : `Add Variants for ${productFormData.name || "Product"}`}
+            </h2>
+            {error && <div className="error-message">{error}</div>}
 
-          {currentStep === 1 && (
-            <form onSubmit={handleProductSubmit} className="product-form">
-              {/* Product Details Fields */}
-              <div className="form-group">
-                <label htmlFor="name">Product Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={productFormData.name}
-                  onChange={handleProductChange}
-                  required
-                />
-              </div>
+            {currentStep === 1 && (
+              <form onSubmit={handleProductSubmit} className="product-form">
+                {/* Product Details Fields */}
+                <div className="create-product_form-group">
+                  <label htmlFor="name">Product Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={productFormData.name}
+                    onChange={handleProductChange}
+                    required
+                  />
+                </div>
 
-              <div className="form-group">
-                <label htmlFor="category">Category</label>
-                <input
-                  type="text"
-                  id="category"
-                  name="category"
-                  value={productFormData.category}
-                  onChange={handleProductChange}
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="subcategory">Subcategory</label>
-                <input
-                  type="text"
-                  id="subcategory"
-                  name="subcategory"
-                  value={productFormData.subcategory}
-                  onChange={handleProductChange}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="brand">Brand</label>
-                <input
-                  type="text"
-                  id="brand"
-                  name="brand"
-                  value={productFormData.brand}
-                  onChange={handleProductChange}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="country">Country</label>
-                <input
-                  type="text"
-                  id="country"
-                  name="country"
-                  value={productFormData.country}
-                  onChange={handleProductChange}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="abv">ABV (%)</label>
-                <input
-                  type="number"
-                  id="abv"
-                  name="abv"
-                  value={productFormData.abv}
-                  onChange={handleProductChange}
-                  step="0.01"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="description">Description</label>
-                <textarea
-                  id="description"
-                  name="description"
-                  value={productFormData.description}
-                  onChange={handleProductChange}
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="image">Upload Product Image</label>
-                <input
-                  type="file"
-                  id="image"
-                  name="image"
-                  onChange={handleImageChange}
-                  accept="image/*"
-                  required
-                />
-                {imagePreview && (
-                  <div className="image-preview-container">
-                    <p>Image Preview:</p>
-                    <img
-                      src={imagePreview}
-                      alt="Selected Product Preview"
-                      className="image-preview"
+                <div className="create-product_form-flex">
+                  <div className="create-product_form-group input-half-width">
+                    <label htmlFor="category">Category</label>
+                    <input
+                      type="text"
+                      id="category"
+                      name="category"
+                      value={productFormData.category}
+                      onChange={handleProductChange}
+                      required
                     />
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setImageFile(null);
-                        setImagePreview(null);
-                      }}
-                      className="remove-image-button"
-                    >
-                      Remove Image
-                    </button>
                   </div>
-                )}
-              </div>
 
-              <button type="submit" disabled={loading}>
-                {loading ? "Creating Product..." : "Create Product & Add Variants"}
-              </button>
-            </form>
-          )}
+                  <div className="create-product_form-group input-half-width">
+                    <label htmlFor="subcategory">Subcategory</label>
+                    <input
+                      type="text"
+                      id="subcategory"
+                      name="subcategory"
+                      value={productFormData.subcategory}
+                      onChange={handleProductChange}
+                    />
+                  </div>
+                </div>
+                <div className="create-product_form-flex">
+                  <div className="create-product_form-group input-half-width">
+                    <label htmlFor="brand">Brand</label>
+                    <input
+                      type="text"
+                      id="brand"
+                      name="brand"
+                      value={productFormData.brand}
+                      onChange={handleProductChange}
+                    />
+                  </div>
 
-          {currentStep === 2 && createdProductId && (
-            <ProductVariantForm
-              productId={createdProductId}
-              onVariantsAdded={handleVariantsAdded}
-              onError={handleVariantFormError}
-              onBack={handleBackToProductDetails}
-            />
-          )}
+                  <div className="create-product_form-group input-half-width">
+                    <label htmlFor="country">Country</label>
+                    <input
+                      type="text"
+                      id="country"
+                      name="country"
+                      value={productFormData.country}
+                      onChange={handleProductChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="create-product_form-group">
+                  <label htmlFor="abv">ABV (%)</label>
+                  <input
+                    type="number"
+                    id="abv"
+                    name="abv"
+                    value={productFormData.abv}
+                    onChange={handleProductChange}
+                    step="0.01"
+                  />
+                </div>
+
+                <div className="create-product_form-group">
+                  <label htmlFor="description">Description</label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    value={productFormData.description}
+                    onChange={handleProductChange}
+                    required
+                  />
+                </div>
+
+                <div className="create-product_form-group">
+                  <label htmlFor="image">Upload Product Image</label>
+                  <input
+                    type="file"
+                    id="image"
+                    name="image"
+                    onChange={handleImageChange}
+                    accept="image/*"
+                    required
+                  />
+                  {imagePreview && (
+                    <div className="image-preview-container">
+                      <p>Image Preview:</p>
+                      <img
+                        src={imagePreview}
+                        alt="Selected Product Preview"
+                        className="image-preview"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setImageFile(null);
+                          setImagePreview(null);
+                        }}
+                        className="remove-image-button btn btn-outline"
+                      >
+                        Remove Image
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                <button type="submit" disabled={loading} className="btn btn-primary">
+                  {loading
+                    ? "Creating Product..."
+                    : "Create Product & Add Variants"}
+                </button>
+              </form>
+            )}
+
+            {currentStep === 2 && createdProductId && (
+              <ProductVariantForm
+                productId={createdProductId}
+                onVariantsAdded={handleVariantsAdded}
+                onError={handleVariantFormError}
+                onBack={handleBackToProductDetails}
+              />
+            )}
+          </div>
         </div>
       </section>
     </>

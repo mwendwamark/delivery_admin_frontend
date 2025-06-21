@@ -1,0 +1,380 @@
+/* .variant-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.variant-form-container h3 {
+  font-size: var(--text-2xl);
+  color: var(--wine-dark);
+  margin-bottom: 1rem;
+}
+
+.variant-error-message {
+  color: var(--accent-light);
+  background-color: rgba(188, 54, 59, 0.1);
+  border: 1px solid var(--accent-light);
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: var(--text-sm);
+}
+
+.variant-item {
+  border: 1px solid var(--sec-color);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: var(--primary-color);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.variant-item h4 {
+  margin-bottom: 0.5rem;
+  color: var(--wine-dark);
+  font-size: var(--text-xl);
+}
+
+.variant-form-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 4%;
+}
+
+.variant-form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.variant-form-group label {
+  margin-bottom: 0.25rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--wine-dark);
+}
+
+.variant-form-group input[type="text"],
+.variant-form-group input[type="number"] {
+  padding: 0.8rem;
+  outline: var(--wine-dark) 1px solid;
+  font-size: var(--text-base);
+  font-family: "Didact Gothic", sans-serif;
+  background-color: var(--primary-color);
+  border: none;
+  color: var(--text-dark);
+}
+
+.variant-checkbox-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.variant-checkbox-group label {
+  margin-bottom: 0;
+}
+
+.variant-checkbox-group input[type="checkbox"] {
+  width: auto;
+  min-width: 16px;
+  height: 16px;
+  outline: none;
+  border: 1px solid var(--wine-dark);
+  vertical-align: middle;
+  margin-top: 0;
+
+  padding: 0;
+  background-color: initial;
+}
+
+.variant-add-btn {
+  margin-top: 1rem;
+  width: fit-content;
+  align-self: flex-start;
+}
+
+.variant-remove-btn {
+  color: var(--accent-light);
+  border-color: var(--accent-light);
+  width: fit-content;
+  align-self: flex-end;
+  margin-top: 0.75rem;
+}
+
+.variant-remove-btn:hover {
+  background-color: var(--accent-light);
+  color: var(--primary-color);
+}
+
+.variant-form-actions {
+  margin-top: 1.5rem;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.variant-back-btn {
+  justify-content: center;
+}
+
+@media (max-width: 1024px) {
+  .variant-form-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .variant-form-actions .btn {
+    width: 100%;
+  }
+  .variant-item {
+    padding: 0.75rem;
+  }
+  .variant-add-btn,
+  .variant-remove-btn {
+    align-self: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .variant-form-flex {
+    flex-direction: column;
+    gap: 0;
+  }
+  .variant-form-group {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  .variant-form-container h3 {
+    font-size: var(--text-xl);
+  }
+  .variant-item {
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .variant-form-container {
+    gap: 0.25rem;
+  }
+  .variant-item {
+    padding: 0.5rem;
+  }
+  .variant-item h4 {
+    font-size: var(--text-lg);
+  }
+  .variant-form-group input[type="text"],
+  .variant-form-group input[type="number"] {
+    padding: 0.6rem;
+    font-size: var(--text-sm);
+  }
+  .variant-add-btn,
+  .variant-remove-btn {
+    font-size: var(--text-sm);
+    padding: 0.5rem 1rem;
+  }
+} */
+
+/* ProductVariantForm.css */
+
+/*
+  These styles are specific to the ProductVariantForm component.
+  They mirror the aesthetics of the CreateProduct component,
+  but use unique class names to prevent conflicts.
+*/
+
+.variant-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* Matches the gap in the parent's .product-form */
+}
+
+.variant-form-container h3 {
+  font-size: var(--text-2xl); /* Matches h3 in parent */
+  color: var(--wine-dark);
+  margin-bottom: 1rem; /* Added spacing below heading */
+}
+
+.variant-error-message {
+  color: var(--accent-light);
+  background-color: rgba(188, 54, 59, 0.1);
+  border: 1px solid var(--accent-light);
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: var(--text-sm);
+}
+
+.variant-item {
+  border: 1px solid var(--sec-color);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: var(--primary-color);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* Space between field groups within a variant item */
+}
+
+.variant-item h4 {
+  margin-bottom: 0.5rem;
+  color: var(--wine-dark);
+  font-size: var(--text-xl);
+}
+
+.variant-form-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  /* Adjusted gap for half-width inputs within variants */
+  gap: 4%; /* Equivalent to 48% + 4% + 48% = 100% */
+}
+
+.variant-form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Default to full width */
+  gap: 0.5rem;
+}
+
+/* .input-half-width is a utility class and is kept as-is */
+
+.variant-form-group label {
+  margin-bottom: 0.25rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--wine-dark);
+}
+
+.variant-form-group input[type="text"],
+.variant-form-group input[type="number"] {
+  padding: 0.8rem;
+  outline: var(--wine-dark) 1px solid;
+  font-size: var(--text-base);
+  font-family: "Didact Gothic", sans-serif;
+  background-color: var(--primary-color);
+  border: none;
+  color: var(--text-dark);
+}
+
+.variant-checkbox-group {
+  display: flex;
+  flex-direction: row; /* Align label and checkbox horizontally */
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.variant-checkbox-group label {
+  margin-bottom: 0;
+}
+
+.variant-checkbox-group input[type="checkbox"] {
+  width: auto;
+  min-width: 16px;
+  height: 16px;
+  outline: none;
+  border: 1px solid var(--wine-dark);
+  vertical-align: middle;
+  margin-top: 0;
+  /* Override default input styles */
+  padding: 0;
+  background-color: initial;
+}
+
+.variant-add-btn {
+  margin-top: 1rem;
+  width: fit-content;
+  align-self: flex-start; /* Align to the left */
+}
+
+.variant-remove-btn {
+  color: var(--accent-light);
+  border-color: var(--accent-light);
+  width: fit-content;
+  align-self: flex-end; /* Align to the right within its variant-item */
+  margin-top: 0.75rem; /* Small space after inputs */
+}
+
+.variant-remove-btn:hover {
+  background-color: var(--accent-light);
+  color: var(--primary-color);
+}
+
+.variant-form-actions {
+  margin-top: 1.5rem;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.variant-back-btn {
+  justify-content: center; /* Center content within the button */
+}
+
+
+/* --- Media Queries for ProductVariantForm --- */
+@media (max-width: 1024px) {
+  /* Flex items within variant-item should stack */
+  .variant-form-flex {
+    flex-direction: column;
+    gap: 0; /* Remove gap when stacked */
+  }
+  .variant-form-group {
+    width: 100%; /* Ensures full width when stacked */
+    margin-bottom: 1rem; /* Add spacing between stacked groups */
+  }
+
+  /* Main form action buttons should stack */
+  .variant-form-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .variant-form-actions .btn {
+    width: 100%; /* Full width for stacked buttons */
+  }
+
+  .variant-item {
+    padding: 0.75rem; /* Slightly reduced padding */
+  }
+  .variant-add-btn,
+  .variant-remove-btn {
+    align-self: center; /* Center these buttons when layout is stacked */
+  }
+}
+
+@media (max-width: 768px) {
+  .variant-form-container h3 {
+    font-size: var(--text-xl); /* Smaller heading */
+  }
+  .variant-item {
+    gap: 0.5rem;
+  }
+  /* The .variant-form-flex and .variant-form-actions
+     are already handled by the 1024px media query to stack */
+}
+
+@media (max-width: 480px) {
+  .variant-form-container {
+    gap: 0.25rem;
+  }
+  .variant-item {
+    padding: 0.5rem;
+  }
+  .variant-item h4 {
+    font-size: var(--text-lg);
+  }
+  .variant-form-group input[type="text"],
+  .variant-form-group input[type="number"] {
+    padding: 0.6rem;
+    font-size: var(--text-sm);
+  }
+  .variant-add-btn,
+  .variant-remove-btn {
+    font-size: var(--text-sm);
+    padding: 0.5rem 1rem;
+  }
+}

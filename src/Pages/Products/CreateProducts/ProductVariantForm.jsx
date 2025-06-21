@@ -1,9 +1,15 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { productsAPI } from "../../../Config/api"; // Import your API helper
-import "./CreateProduct.css"
+import "./ProductVariantForm.css"; // New CSS file for this component
+import { MoveLeft } from "lucide-react";
 
-const ProductVariantForm = ({ productId, onVariantsAdded, onError, onBack }) => {
+const ProductVariantForm = ({
+  productId,
+  onVariantsAdded,
+  onError,
+  onBack,
+}) => {
   const [productVariants, setProductVariants] = useState([
     { size: "", price: "", availability: true, stock: "" },
   ]);
@@ -44,38 +50,57 @@ const ProductVariantForm = ({ productId, onVariantsAdded, onError, onBack }) => 
 
     try {
       // Validate all variants before sending
-      const hasInvalidVariant = productVariants.some(variant =>
-        !variant.size || !variant.price || !variant.stock || isNaN(parseFloat(variant.price)) || isNaN(parseInt(variant.stock, 10))
+      const hasInvalidVariant = productVariants.some(
+        (variant) =>
+          !variant.size ||
+          !variant.price ||
+          !variant.stock ||
+          isNaN(parseFloat(variant.price)) ||
+          isNaN(parseInt(variant.stock, 10))
       );
 
       if (hasInvalidVariant) {
-        setCurrentError("Please ensure all variant fields (size, price, stock) are filled correctly.");
+        setCurrentError(
+          "Please ensure all variant fields (size, price, stock) are filled correctly."
+        );
         setLoading(false);
-        onError("Please ensure all variant fields (size, price, stock) are filled correctly.");
+        onError(
+          "Please ensure all variant fields (size, price, stock) are filled correctly."
+        );
         return;
       }
 
       const results = [];
       for (const variant of productVariants) {
         try {
-          const response = await productsAPI.createProductVariant(productId, variant);
+          const response = await productsAPI.createProductVariant(
+            productId,
+            variant
+          );
           results.push({ success: true, data: response });
         } catch (err) {
-          // If one variant fails, record the error but try to continue with others
           console.error(`Error adding variant ${variant.size}:`, err);
-          results.push({ success: false, error: err.message, variant: variant });
-          setCurrentError((prev) => prev + `\nFailed to add variant ${variant.size}: ${err.message}`);
-          // Decide whether to stop or continue. For now, we continue.
+          results.push({
+            success: false,
+            error: err.message,
+            variant: variant,
+          });
+          setCurrentError(
+            (prev) =>
+              prev + `\nFailed to add variant ${variant.size}: ${err.message}`
+          );
         }
       }
 
-      const allSuccessful = results.every(res => res.success);
+      const allSuccessful = results.every((res) => res.success);
 
       if (allSuccessful) {
         alert("Product and all variants created successfully!");
         onVariantsAdded(); // Callback to parent to reset/navigate
       } else {
-        onError("Some variants failed to create. Please check the errors above.");
+        onError(
+          "Some variants failed to create. Please check the errors above."
+        );
       }
     } catch (err) {
       console.error("Unexpected error during variant submission:", err);
@@ -87,80 +112,103 @@ const ProductVariantForm = ({ productId, onVariantsAdded, onError, onBack }) => 
   };
 
   return (
-    <form onSubmit={handleAllVariantsSubmit} className="variant-form">
-      <h3>Add Product Variants</h3>
-      {currentError && <div className="error-message">{currentError}</div>}
+    <>
+      {/* The main form container for variants */}
+      <form onSubmit={handleAllVariantsSubmit} className="variant-form-container">
+        <h3>Add Product Variants</h3>
+        {currentError && <div className="variant-error-message">{currentError}</div>}
 
-      {productVariants.map((variant, index) => (
-        <div key={index} className="variant-entry">
-          <h4>Variant #{index + 1}</h4>
-          <div className="form-group">
-            <label htmlFor={`size-${index}`}>Size (e.g., 750ml, 1L)</label>
-            <input
-              type="text"
-              id={`size-${index}`}
-              name="size"
-              value={variant.size}
-              onChange={(e) => handleVariantChange(index, e)}
-              required
-            />
+        {productVariants.map((variant, index) => (
+          <div key={index} className="variant-item variant-form-group">
+            <h4>Variant #{index + 1}</h4>
+            {/* Flex container for size and price inputs */}
+            <div className="variant-form-flex">
+              <div className="variant-form-group input-half-width">
+                <label htmlFor={`size-${index}`}>Size (e.g., 750ml, 1L)</label>
+                <input
+                  type="text"
+                  id={`size-${index}`}
+                  name="size"
+                  value={variant.size}
+                  onChange={(e) => handleVariantChange(index, e)}
+                  required
+                />
+              </div>
+              <div className="variant-form-group input-half-width">
+                <label htmlFor={`price-${index}`}>Price</label>
+                <input
+                  type="number"
+                  id={`price-${index}`}
+                  name="price"
+                  value={variant.price}
+                  onChange={(e) => handleVariantChange(index, e)}
+                  step="0.01"
+                  required
+                />
+              </div>
+            </div>
+            {/* Flex container for stock and availability inputs */}
+            <div className="variant-form-flex">
+              <div className="variant-form-group input-half-width">
+                <label htmlFor={`stock-${index}`}>Stock Quantity</label>
+                <input
+                  type="number"
+                  id={`stock-${index}`}
+                  name="stock"
+                  value={variant.stock}
+                  onChange={(e) => handleVariantChange(index, e)}
+                  required
+                />
+              </div>
+              <div className="variant-form-group input-half-width variant-checkbox-group">
+                <input
+                  type="checkbox"
+                  id={`availability-${index}`}
+                  name="availability"
+                  checked={variant.availability}
+                  onChange={(e) => handleVariantChange(index, e)}
+                />
+                <label htmlFor={`availability-${index}`}>Available</label>
+              </div>
+            </div>
+            {productVariants.length > 1 && (
+              <button
+                type="button"
+                onClick={() => handleRemoveVariant(index)}
+                className="variant-remove-btn btn btn-outline"
+              >
+                Remove Variant
+              </button>
+            )}
           </div>
-          <div className="form-group">
-            <label htmlFor={`price-${index}`}>Price</label>
-            <input
-              type="number"
-              id={`price-${index}`}
-              name="price"
-              value={variant.price}
-              onChange={(e) => handleVariantChange(index, e)}
-              step="0.01"
-              required
-            />
-          </div>
-          <div className="form-group checkbox-group">
-            <input
-              type="checkbox"
-              id={`availability-${index}`}
-              name="availability"
-              checked={variant.availability}
-              onChange={(e) => handleVariantChange(index, e)}
-            />
-            <label htmlFor={`availability-${index}`}>Available</label>
-          </div>
-          <div className="form-group">
-            <label htmlFor={`stock-${index}`}>Stock Quantity</label>
-            <input
-              type="number"
-              id={`stock-${index}`}
-              name="stock"
-              value={variant.stock}
-              onChange={(e) => handleVariantChange(index, e)}
-              required
-            />
-          </div>
-          {productVariants.length > 1 && (
-            <button
-              type="button"
-              onClick={() => handleRemoveVariant(index)}
-              className="remove-variant-button"
-            >
-              Remove Variant
-            </button>
-          )}
+        ))}
+        {/* Button to add more variants */}
+        <button
+          type="button"
+          onClick={handleAddVariant}
+          className="variant-add-btn btn btn-secondary"
+        >
+          + Add Another Variant
+        </button>
+        {/* Action buttons at the bottom of the form */}
+        <div className="variant-form-actions variant-form-flex">
+          <button
+            type="submit"
+            disabled={loading}
+            className="btn btn-primary input-half-width"
+          >
+            {loading ? "Saving Variants..." : "Save Variants & Finish"}
+          </button>
+          <button
+            type="button"
+            onClick={onBack}
+            className="variant-back-btn btn btn-outline input-half-width btn-icon"
+          >
+            <MoveLeft /> to Product Details
+          </button>
         </div>
-      ))}
-      <button type="button" onClick={handleAddVariant} className="add-variant-button">
-        Add Another Variant
-      </button>
-      <div className="form-actions">
-        <button type="submit" disabled={loading}>
-          {loading ? "Saving Variants..." : "Save All Variants & Finish"}
-        </button>
-        <button type="button" onClick={onBack} className="back-button">
-          Back to Product Details
-        </button>
-      </div>
-    </form>
+      </form>
+    </>
   );
 };
 
