@@ -1,0 +1,115 @@
+.products-update_page {
+  width: 100%;
+  height: auto;
+  background-color: var(--bg-color);
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.products-update_container {
+  padding: 2rem;
+  margin: auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.products-update_contents {
+  width: 70%;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.products-update_contents h2 {
+  font-size: var(--text-3xl);
+  font-weight: 600;
+}
+
+.product-update-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.update-product_form-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.update-product_form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+.update-product_form-group textarea,
+.update-product_form-group input[type="text"],
+.update-product_form-group input[type="number"] {
+  padding: 0.8rem;
+  outline: 1px solid var(--wine-deep);
+  border: none;
+  font-size: var(--text-base);
+  font-family: "Didact Gothic", sans-serif;
+  background-color: var(--primary-color);
+}
+
+.update-product_form-group textarea {
+  height: 10rem;
+}
+
+.current-image-preview {
+  width: 100%;
+  padding: 0.8rem;
+}
+
+.product-image-preview {
+  border: 1px solid var(--wine-deep);
+  height: 300px;
+  width: 100%;
+  object-fit: contain;
+}
+
+.update-half-input {
+  width: 48%;
+}
+
+.update-products_form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+@media (max-width: 1024px) {
+  .products-update_container {
+    padding: 0rem;
+  }
+  .products-update_contents {
+    width: 80%;
+  }
+}
+
+@media (max-width: 768px) {
+  .products-update_contents {
+    width: 80%;
+    padding: 2rem 0;
+  }
+  .update-products_form-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .submit-btn, .back-btn{
+    width: 100%;
+  }
+}
+
+@media (max-width:480px){
+    .products-update_contents {
+    width: 100%;
+  }
+}

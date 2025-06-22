@@ -5,7 +5,7 @@ import CreateProduct from "./Pages/Products/CreateProducts/CreateProduct";
 import Navbar from "./Components/Navbar/Navbar";
 import AdminProductList from "./Pages/Products/AdminProductList";
 import AdminProductUpdate from "./Pages/Products/UpdateProducts/AdminProductUpdate";
-import AdminProductVariantsManagement from "./Pages/Products/UpdateProducts/AdminProductVariantsManagement";
+import AdminProductVariantsManagement from "./Pages/Products/UpdateProducts/UpdateProductVariants";
 
 function App() {
   return (

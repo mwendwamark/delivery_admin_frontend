@@ -24,6 +24,7 @@
 
 .product-management h2 {
   font-size: var(--text-3xl);
+  font-weight: 600;
 }
 
 .product-form {

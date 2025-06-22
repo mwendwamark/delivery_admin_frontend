@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { productsAPI } from "../../../Config/api"; // Adjust path as needed
 // import "./AdminProductVariantsManagement.css"; // We'll create this CSS file
-
+import "./UpdateProductVariants.css"
 const AdminProductVariantsManagement = () => {
   const { productId } = useParams(); // Get product ID from URL
   const navigate = useNavigate();
@@ -217,7 +217,7 @@ const AdminProductVariantsManagement = () => {
   }
 
   return (
-    <div className="variants-container section">
+    <div className="variants-container section container">
       <div className="variants-header">
         <h2>Manage Variants for "{productName}"</h2>
         <button

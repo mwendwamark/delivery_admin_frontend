@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { productsAPI } from "../../../Config/api"; // Adjust the path as necessary
 import "./AdminProductUpdate.css"; // We'll create this CSS file
+import { MoveLeft } from "lucide-react";
 
 const AdminProductUpdate = () => {
   const { productId } = useParams(); // Get product ID from URL parameter
@@ -46,7 +47,9 @@ const AdminProductUpdate = () => {
         setCurrentImageUrl(data.image_url || null); // Store current image URL for preview
       } catch (err) {
         console.error("Error fetching product:", err);
-        setError("Failed to load product details. Please check the product ID or network connection.");
+        setError(
+          "Failed to load product details. Please check the product ID or network connection."
+        );
       } finally {
         setLoading(false);
       }
@@ -102,7 +105,10 @@ const AdminProductUpdate = () => {
     } catch (err) {
       console.error("Error updating product:", err);
       // Display a user-friendly error message
-      setError(err.message || "Failed to update product. Please check your input and try again.");
+      setError(
+        err.message ||
+          "Failed to update product. Please check your input and try again."
+      );
     } finally {
       setUpdating(false);
     }
@@ -110,7 +116,11 @@ const AdminProductUpdate = () => {
 
   // Render loading state
   if (loading) {
-    return <div className="admin-update-container loading-state">Loading product details...</div>;
+    return (
+      <div className="admin-update-container loading-state">
+        Loading product details...
+      </div>
+    );
   }
 
   // Render error state if initial fetch failed and no success message is present
@@ -119,125 +129,148 @@ const AdminProductUpdate = () => {
   }
 
   return (
-    <div className="admin-update-container section">
-      <h2>Update Product</h2>
-      {successMessage && <div className="success-message">{successMessage}</div>}
-      <form onSubmit={handleSubmit} className="product-update-form">
-        <div className="form-group">
-          <label htmlFor="name">Product Name:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={product.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
+    <>
+      <section className="products-update_page section container">
+        <div className="products-update_container">
+          <div className="products-update_contents">
+            <h2>Update Product</h2>
+            {successMessage && (
+              <div className="success-message">{successMessage}</div>
+            )}
+            <form onSubmit={handleSubmit} className="product-update-form">
+              <div className="update-product_form-group">
+                <label htmlFor="name">Product Name:</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={product.name}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="update-product_form-flex ">
+                <div className="update-product_form-group update-half-input">
+                  <label htmlFor="category">Category:</label>
+                  <input
+                    type="text"
+                    id="category"
+                    name="category"
+                    value={product.category}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
-        <div className="form-group">
-          <label htmlFor="category">Category:</label>
-          <input
-            type="text"
-            id="category"
-            name="category"
-            value={product.category}
-            onChange={handleChange}
-            required
-          />
-        </div>
+                <div className="update-product_form-group update-half-input">
+                  <label htmlFor="subcategory">Subcategory:</label>
+                  <input
+                    type="text"
+                    id="subcategory"
+                    name="subcategory"
+                    value={product.subcategory}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+              <div className="update-product_form-flex">
+                <div className="update-product_form-group update-half-input">
+                  <label htmlFor="brand">Brand:</label>
+                  <input
+                    type="text"
+                    id="brand"
+                    name="brand"
+                    value={product.brand}
+                    onChange={handleChange}
+                  />
+                </div>
 
-        <div className="form-group">
-          <label htmlFor="subcategory">Subcategory:</label>
-          <input
-            type="text"
-            id="subcategory"
-            name="subcategory"
-            value={product.subcategory}
-            onChange={handleChange}
-          />
-        </div>
+                <div className="update-product_form-group update-half-input">
+                  <label htmlFor="country">Country:</label>
+                  <input
+                    type="text"
+                    id="country"
+                    name="country"
+                    value={product.country}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
 
-        <div className="form-group">
-          <label htmlFor="brand">Brand:</label>
-          <input
-            type="text"
-            id="brand"
-            name="brand"
-            value={product.brand}
-            onChange={handleChange}
-          />
-        </div>
+              <div className="update-product_form-group">
+                <label htmlFor="abv">ABV (%):</label>
+                <input
+                  type="number"
+                  id="abv"
+                  name="abv"
+                  value={product.abv}
+                  onChange={handleChange}
+                  step="0.1" // Allows decimal values for ABV
+                />
+              </div>
 
-        <div className="form-group">
-          <label htmlFor="country">Country:</label>
-          <input
-            type="text"
-            id="country"
-            name="country"
-            value={product.country}
-            onChange={handleChange}
-          />
-        </div>
+              <div className="update-product_form-group">
+                <label htmlFor="description">Description:</label>
+                <textarea
+                  id="description"
+                  name="description"
+                  value={product.description}
+                  onChange={handleChange}
+                  rows="5"
+                ></textarea>
+              </div>
 
-        <div className="form-group">
-          <label htmlFor="abv">ABV (%):</label>
-          <input
-            type="number"
-            id="abv"
-            name="abv"
-            value={product.abv}
-            onChange={handleChange}
-            step="0.1" // Allows decimal values for ABV
-          />
-        </div>
+              <div className="update-product_form-group image-upload-group">
+                <label htmlFor="image">Product Image:</label>
+                {currentImageUrl ? (
+                  <div className="current-image-preview">
+                    <p>Current/New Image Preview:</p>
+                    <img
+                      src={currentImageUrl}
+                      alt="Product"
+                      className="product-image-preview"
+                    />
+                  </div>
+                ) : (
+                  <div className="no-image-preview">
+                    No image selected or uploaded yet.
+                  </div>
+                )}
+                <input
+                  type="file"
+                  id="image"
+                  name="image"
+                  accept="image/*" // Only accept image files
+                  onChange={handleImageChange}
+                />
+                <small>
+                  Upload a new image to replace the current one. Leave blank to
+                  keep existing image.
+                </small>
+              </div>
 
-        <div className="form-group">
-          <label htmlFor="description">Description:</label>
-          <textarea
-            id="description"
-            name="description"
-            value={product.description}
-            onChange={handleChange}
-            rows="5"
-          ></textarea>
+              <div className="update-products_form-actions">
+                <button
+                  type="submit"
+                  disabled={updating}
+                  className="submit-btn btn btn-primary"
+                >
+                  {updating ? "Updating..." : "Update Product"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => navigate("/admin/products")} // Navigate back to product list
+                  className="back-btn btn btn-outline btn-icon"
+                  disabled={updating}
+                >
+                 <MoveLeft/> Back to Products
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-
-        <div className="form-group image-upload-group">
-          <label htmlFor="image">Product Image:</label>
-          {currentImageUrl ? (
-            <div className="current-image-preview">
-              <p>Current/New Image Preview:</p>
-              <img src={currentImageUrl} alt="Product" className="product-image-preview" />
-            </div>
-          ) : (
-            <div className="no-image-preview">No image selected or uploaded yet.</div>
-          )}
-          <input
-            type="file"
-            id="image"
-            name="image"
-            accept="image/*" // Only accept image files
-            onChange={handleImageChange}
-          />
-          <small>Upload a new image to replace the current one. Leave blank to keep existing image.</small>
-        </div>
-
-        <div className="form-actions">
-          <button type="submit" disabled={updating} className="submit-btn">
-            {updating ? "Updating..." : "Update Product"}
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate("/admin/products")} // Navigate back to product list
-            className="back-btn"
-            disabled={updating}
-          >
-            Back to Products
-          </button>
-        </div>
-      </form>
-    </div>
+      </section>
+    </>
   );
 };
 
