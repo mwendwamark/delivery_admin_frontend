@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { productsAPI } from "../../../Config/api"; // Adjust path as needed
-// import "./AdminProductVariantsManagement.css"; // We'll create this CSS file
-import "./UpdateProductVariants.css"
+import { productsAPI } from "../../../Config/api";
+import "./UpdateProductVariants.css";
+import { MoveLeft } from "lucide-react";
+
 const AdminProductVariantsManagement = () => {
-  const { productId } = useParams(); // Get product ID from URL
+  const { productId } = useParams();
   const navigate = useNavigate();
 
-  const [productName, setProductName] = useState(""); // To display the product name
+  const [productName, setProductName] = useState("");
   const [variants, setVariants] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false); // For add/update/delete operations
+  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null); // State for success message
 
-  // State for adding a new variant
   const [showAddForm, setShowAddForm] = useState(false);
   const [newVariant, setNewVariant] = useState({
     size: "",
@@ -23,7 +23,6 @@ const AdminProductVariantsManagement = () => {
     stock: 0,
   });
 
-  // State for editing an existing variant
   const [editingVariantId, setEditingVariantId] = useState(null);
   const [editVariant, setEditVariant] = useState({
     size: "",
@@ -35,17 +34,27 @@ const AdminProductVariantsManagement = () => {
   useEffect(() => {
     fetchProductAndVariants();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productId]); // Re-fetch when productId changes
+  }, [productId]);
+
+  // --- New useEffect for success message timeout ---
+  useEffect(() => {
+    if (successMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage(null); // Clear the message after 5 seconds
+      }, 5000); // 5000 milliseconds = 5 seconds
+
+      return () => clearTimeout(timer); // Clean up the timer if component unmounts or message changes
+    }
+  }, [successMessage]); // Re-run this effect whenever successMessage changes
+  // --------------------------------------------------
 
   const fetchProductAndVariants = async () => {
     setLoading(true);
     setError(null);
     try {
-      // First, fetch product details to get its name
       const productData = await productsAPI.getProductById(productId);
       setProductName(productData.name || "Unknown Product");
 
-      // Then, fetch its variants
       const variantsData = await productsAPI.getProductVariants(productId);
       setVariants(variantsData);
     } catch (err) {
@@ -76,9 +85,8 @@ const AdminProductVariantsManagement = () => {
     e.preventDefault();
     setSubmitting(true);
     setError(null);
-    setSuccessMessage(null);
+    setSuccessMessage(null); // Clear any old success messages
     try {
-      // Input validation for new variant
       if (
         !newVariant.size ||
         !newVariant.price ||
@@ -107,9 +115,9 @@ const AdminProductVariantsManagement = () => {
         newVariant
       );
       setVariants((prev) => [...prev, addedVariant]);
-      setNewVariant({ size: "", price: "", availability: true, stock: 0 }); // Reset form
-      setShowAddForm(false); // Hide form after adding
-      setSuccessMessage("Variant added successfully!");
+      setNewVariant({ size: "", price: "", availability: true, stock: 0 });
+      setShowAddForm(false);
+      setSuccessMessage("Variant added successfully!"); // Set the success message
     } catch (err) {
       console.error("Error adding variant:", err);
       setError(err.message || "Failed to add variant. Please check inputs.");
@@ -122,9 +130,8 @@ const AdminProductVariantsManagement = () => {
     e.preventDefault();
     setSubmitting(true);
     setError(null);
-    setSuccessMessage(null);
+    setSuccessMessage(null); // Clear any old success messages
     try {
-      // Input validation for edited variant
       if (
         !editVariant.size ||
         !editVariant.price ||
@@ -155,8 +162,8 @@ const AdminProductVariantsManagement = () => {
       setVariants((prev) =>
         prev.map((v) => (v.id === editingVariantId ? updatedVariant : v))
       );
-      setEditingVariantId(null); // Exit editing mode
-      setSuccessMessage("Variant updated successfully!");
+      setEditingVariantId(null);
+      setSuccessMessage("Variant updated successfully!"); // Set the success message
     } catch (err) {
       console.error("Error updating variant:", err);
       setError(err.message || "Failed to update variant. Please check inputs.");
@@ -174,11 +181,11 @@ const AdminProductVariantsManagement = () => {
       return;
     setSubmitting(true);
     setError(null);
-    setSuccessMessage(null);
+    setSuccessMessage(null); // Clear any old success messages
     try {
       await productsAPI.deleteProductVariant(variantId);
       setVariants((prev) => prev.filter((v) => v.id !== variantId));
-      setSuccessMessage("Variant deleted successfully!");
+      setSuccessMessage("Variant deleted successfully!"); // Set the success message
     } catch (err) {
       console.error("Error deleting variant:", err);
       setError("Failed to delete variant.");
@@ -195,36 +202,39 @@ const AdminProductVariantsManagement = () => {
       availability: variant.availability,
       stock: variant.stock,
     });
-    setShowAddForm(false); // Hide add form if starting to edit
+    setShowAddForm(false);
+    setError(null); // Clear errors when starting edit
+    setSuccessMessage(null); // Clear success when starting edit
   };
 
   const cancelEditing = () => {
     setEditingVariantId(null);
-    setEditVariant({ size: "", price: "", availability: true, stock: 0 }); // Reset edit form
+    setEditVariant({ size: "", price: "", availability: true, stock: 0 });
+    setError(null); // Clear errors when canceling edit
+    setSuccessMessage(null); // Clear success when canceling edit
   };
 
   if (loading) {
     return (
-      <div className="variants-container loading-state">
+      <div className="update-product-variants-container loading-state">
         Loading product variants...
       </div>
     );
   }
 
-  if (error && !successMessage) {
-    // Only show error if no success message
-    return <div className="variants-container error-state">{error}</div>;
-  }
+  // Ensure error is cleared if success message is present, and vice versa.
+  // The useEffect for success will handle its disappearance.
+  // If an error exists, it should still show unless cleared by another action.
 
   return (
-    <div className="variants-container section container">
-      <div className="variants-header">
+    <div className="update-product-variants-container section container">
+      <div className="update-product-variants-header">
         <h2>Manage Variants for "{productName}"</h2>
         <button
           onClick={() => navigate("/admin/products")}
-          className="back-to-products-btn"
+          className="back-to-products-btn btn-icon"
         >
-          Back to Products
+          <MoveLeft/>Back to Products
         </button>
       </div>
 
@@ -233,19 +243,19 @@ const AdminProductVariantsManagement = () => {
       )}
       {error && <div className="error-message">{error}</div>}
 
-      <div className="variants-list-section">
+      <div className="update-product-variants-list-section">
         <h3>Current Variants</h3>
         {variants.length === 0 ? (
           <p className="no-variants">
             No variants found for this product. Add one below!
           </p>
         ) : (
-          <div className="variants-table-wrapper">
-            <table className="variants-table">
+          <div className="update-product-variants-table-wrapper">
+            <table className="update-product-variants-table">
               <thead>
                 <tr>
                   <th>Size</th>
-                  <th>Price</th>
+                  <th>Price (KES)</th>
                   <th>Stock</th>
                   <th>Available</th>
                   <th>Actions</th>
@@ -255,7 +265,6 @@ const AdminProductVariantsManagement = () => {
                 {variants.map((variant) => (
                   <tr key={variant.id}>
                     {editingVariantId === variant.id ? (
-                      // Inline editing row
                       <>
                         <td data-label="Size">
                           <input
@@ -298,25 +307,24 @@ const AdminProductVariantsManagement = () => {
                           <button
                             onClick={handleUpdateVariantSubmit}
                             disabled={submitting}
-                            className="save-btn"
+                            className="update-product_save-btn"
                           >
                             Save
                           </button>
                           <button
                             onClick={cancelEditing}
                             disabled={submitting}
-                            className="cancel-btn"
+                            className="update-product_cancel-btn"
                           >
                             Cancel
                           </button>
                         </td>
                       </>
                     ) : (
-                      // Display mode row
                       <>
                         <td data-label="Size">{variant.size}</td>
                         <td data-label="Price">
-                          ${parseFloat(variant.price).toFixed(2)}
+                          KES {parseFloat(variant.price).toFixed(2)}
                         </td>
                         <td data-label="Stock">{variant.stock}</td>
                         <td data-label="Available">
@@ -325,14 +333,14 @@ const AdminProductVariantsManagement = () => {
                         <td data-label="Actions">
                           <button
                             onClick={() => startEditing(variant)}
-                            className="edit-btn"
+                            className="update-product_edit-btn"
                             disabled={submitting}
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDeleteVariant(variant.id)}
-                            className="delete-btn"
+                            className="update-product_delete-btn"
                             disabled={submitting}
                           >
                             Delete
@@ -348,18 +356,20 @@ const AdminProductVariantsManagement = () => {
         )}
       </div>
 
-      <div className="add-variant-section">
+      <div className="update-product-add-variant-section">
         <h3>Add New Variant</h3>
         <button
           onClick={() => {
             setShowAddForm((prev) => !prev);
-            setEditingVariantId(null); // Close editing if opening add form
+            setEditingVariantId(null);
             setNewVariant({
               size: "",
               price: "",
               availability: true,
               stock: 0,
-            }); // Reset new variant form
+            });
+            setError(null); // Clear errors when toggling add form
+            setSuccessMessage(null); // Clear success when toggling add form
           }}
           className="toggle-add-form-btn"
         >
@@ -367,8 +377,11 @@ const AdminProductVariantsManagement = () => {
         </button>
 
         {showAddForm && (
-          <form onSubmit={handleAddVariantSubmit} className="add-variant-form">
-            <div className="form-group">
+          <form
+            onSubmit={handleAddVariantSubmit}
+            className="update-product-add-variant-form"
+          >
+            <div className="update-product-form-group">
               <label htmlFor="new-size">Size:</label>
               <input
                 type="text"
@@ -380,8 +393,8 @@ const AdminProductVariantsManagement = () => {
                 disabled={submitting}
               />
             </div>
-            <div className="form-group">
-              <label htmlFor="new-price">Price:</label>
+            <div className="update-product-form-group">
+              <label htmlFor="new-price">Price (KES):</label>
               <input
                 type="number"
                 id="new-price"
@@ -393,7 +406,7 @@ const AdminProductVariantsManagement = () => {
                 disabled={submitting}
               />
             </div>
-            <div className="form-group">
+            <div className="update-product-form-group">
               <label htmlFor="new-stock">Stock:</label>
               <input
                 type="number"
@@ -405,7 +418,7 @@ const AdminProductVariantsManagement = () => {
                 disabled={submitting}
               />
             </div>
-            <div className="form-group checkbox-group">
+            <div className="update-product-form-group checkbox-group">
               <input
                 type="checkbox"
                 id="new-availability"
