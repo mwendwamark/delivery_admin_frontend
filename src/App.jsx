@@ -6,6 +6,8 @@ import Navbar from "./Components/Navbar/Navbar";
 import AdminProductList from "./Pages/Products/AdminProductList";
 import AdminProductUpdate from "./Pages/Products/UpdateProducts/AdminProductUpdate";
 import AdminProductVariantsManagement from "./Pages/Products/UpdateProducts/UpdateProductVariants";
+import AdminUsersList from "./Pages/Users/AdminUsersList";
+import AdminOrdersList from "./Pages/Orders/AdminOrdersList";
 
 function App() {
   return (
@@ -15,7 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<AdminDeliveryAuth />} />
           <Route path="/products/create" element={<CreateProduct />} />
-          <Route path="/admin/products" element={<AdminProductList />}></Route>
+          <Route path="/admin/products" element={<AdminProductList />} />
           <Route
             path="/products/update/:productId"
             element={<AdminProductUpdate />}
@@ -23,7 +25,9 @@ function App() {
           <Route
             path="/products/:productId/variants"
             element={<AdminProductVariantsManagement />}
-          ></Route>
+          />
+          <Route path="/admin/users" element={<AdminUsersList />} />
+          <Route path="/admin/orders" element={<AdminOrdersList />} />
         </Routes>
       </BrowserRouter>
     </>

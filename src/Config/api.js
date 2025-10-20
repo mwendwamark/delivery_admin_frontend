@@ -198,3 +198,57 @@ export const productsAPI = {
   },
 };
 
+// Add these to your existing api.js file
+
+// Users API
+export const usersAPI = {
+  getAllUsers: (params = {}) => {
+    const queryString = new URLSearchParams(params).toString();
+    const url = `${API_BASE_URL}/api/users${queryString ? `?${queryString}` : ""}`;
+    return apiCall(url);
+  },
+
+  getUserById: (id) => {
+    return apiCall(`${API_BASE_URL}/users/${id}`);
+  },
+
+  updateUser: (id, userData) => {
+    return apiCall(`${API_BASE_URL}/users/${id}`, {
+      method: "PATCH",
+      body: { user: userData },
+    });
+  },
+
+  deleteUser: (id) => {
+    return apiCall(`${API_BASE_URL}/users/${id}`, {
+      method: "DELETE",
+    });
+  },
+};
+
+// Orders API
+export const ordersAPI = {
+  getAllOrders: (params = {}) => {
+    const queryString = new URLSearchParams(params).toString();
+    const url = `${API_BASE_URL}/api/orders${queryString ? `?${queryString}` : ""}`;
+    return apiCall(url);
+  },
+
+  getOrderById: (id) => {
+    return apiCall(`${API_BASE_URL}/api/orders/${id}`);
+  },
+
+  getOrderStatus: (id) => {
+    return apiCall(`${API_BASE_URL}/api/orders/${id}/status`);
+  },
+
+  generateReceipt: (id) => {
+    return apiCall(`${API_BASE_URL}/api/orders/${id}/generate_receipt`, {
+      method: "POST",
+    });
+  },
+
+  getReceiptInfo: (id) => {
+    return apiCall(`${API_BASE_URL}/api/orders/${id}/receipt_info`);
+  },
+};
