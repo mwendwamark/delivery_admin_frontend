@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { productsAPI } from "../../../Config/api"; // Import your API helper
 import "./ProductVariantForm.css"; // New CSS file for this component
@@ -10,6 +11,7 @@ const ProductVariantForm = ({
   onError,
   onBack,
 }) => {
+  const navigate = useNavigate();
   const [productVariants, setProductVariants] = useState([
     { size: "", price: "", availability: true, stock: "" },
   ]);
@@ -96,7 +98,7 @@ const ProductVariantForm = ({
 
       if (allSuccessful) {
         alert("Product and all variants created successfully!");
-        onVariantsAdded(); // Callback to parent to reset/navigate
+        navigate("/admin/products"); // Navigate to /admin/products after successful creation
       } else {
         onError(
           "Some variants failed to create. Please check the errors above."

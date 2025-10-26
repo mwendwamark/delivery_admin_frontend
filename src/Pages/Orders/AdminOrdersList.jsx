@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ordersAPI } from "../../Config/api";
+import { ordersAPI, mapUtils } from "../../Config/api";
 import "./AdminOrdersList.css";
 
 const AdminOrdersList = () => {
@@ -92,12 +92,12 @@ const AdminOrdersList = () => {
     try {
       const response = await ordersAPI.generateReceipt(orderId);
       alert(response.message || "Receipt generated successfully");
-      
+
       if (selectedOrder && selectedOrder.id === orderId) {
         const updatedOrder = await ordersAPI.getOrderById(orderId);
         setSelectedOrder(updatedOrder);
       }
-      
+
       fetchOrders();
     } catch (err) {
       alert("Failed to generate receipt: " + err.message);
@@ -348,30 +348,183 @@ const AdminOrdersList = () => {
                   </div>
                 </div>
 
+                {/* <div className="detail-section">
+                  <h3>Shipping Address</h3>
+                  {selectedOrder.shipping_address ? (
+                    <>
+                      <div className="detail-group">
+                        <label>Recipient Name:</label>
+                        <p>{selectedOrder.shipping_address.recipient_name}</p>
+                      </div>
+                      <div className="detail-group">
+                        <label>Recipient Phone:</label>
+                        <p>{selectedOrder.shipping_address.recipient_phone}</p>
+                      </div>
+                      <div className="detail-group">
+                        <label>Street Address:</label>
+                        <p>{selectedOrder.shipping_address.street_address}</p>
+                      </div>
+                      <div className="detail-group">
+                        <label>Location:</label>
+                        <p>{selectedOrder.shipping_address.location}</p>
+                      </div>
+
+                      <div className="detail-group">
+                        <label>Location:</label>
+                        <p>{selectedOrder.shipping_address.latitude}</p>
+                        <p>{selectedOrder.shipping_address.longitude}</p>
+                      </div>
+                    </>
+                  ) : (
+                    <p>No shipping address provided</p>
+                  )}
+                </div> */}
+
                 <div className="detail-section">
                   <h3>Shipping Address</h3>
                   {selectedOrder.shipping_address ? (
                     <>
                       <div className="detail-group">
-                        <label>Street:</label>
-                        <p>{selectedOrder.shipping_address.street}</p>
+                        <label>Recipient Name:</label>
+                        <p>{selectedOrder.shipping_address.recipient_name}</p>
                       </div>
                       <div className="detail-group">
-                        <label>City:</label>
-                        <p>{selectedOrder.shipping_address.city}</p>
+                        <label>Recipient Phone:</label>
+                        <p>{selectedOrder.shipping_address.recipient_phone}</p>
                       </div>
                       <div className="detail-group">
-                        <label>State:</label>
-                        <p>{selectedOrder.shipping_address.state}</p>
+                        <label>Street Address:</label>
+                        <p>{selectedOrder.shipping_address.street_address}</p>
                       </div>
                       <div className="detail-group">
-                        <label>Postal Code:</label>
-                        <p>{selectedOrder.shipping_address.postal_code}</p>
+                        <label>Location:</label>
+                        <p>{selectedOrder.shipping_address.location}</p>
                       </div>
-                      <div className="detail-group">
-                        <label>Phone:</label>
-                        <p>{selectedOrder.shipping_address.phone}</p>
-                      </div>
+
+                      {/* GPS Coordinates Display */}
+                      {selectedOrder.shipping_address.latitude &&
+                        selectedOrder.shipping_address.longitude && (
+                          <div
+                            className="detail-group"
+                            style={{
+                              backgroundColor: "#e3f2fd",
+                              padding: "12px",
+                              borderRadius: "8px",
+                              marginTop: "12px",
+                              border: "1px solid #2196f3",
+                            }}
+                          >
+                            <label
+                              style={{ color: "#1976d2", fontWeight: "bold" }}
+                            >
+                              📍 GPS Coordinates:
+                            </label>
+                            <p
+                              style={{
+                                fontFamily: "monospace",
+                                fontSize: "13px",
+                                color: "#0d47a1",
+                                marginTop: "4px",
+                              }}
+                            >
+                              Latitude:{" "}
+                              {selectedOrder.shipping_address.latitude}
+                              <br />
+                              Longitude:{" "}
+                              {selectedOrder.shipping_address.longitude}
+                            </p>
+                          </div>
+                        )}
+
+                      {/* Map Action Buttons */}
+                      {selectedOrder.shipping_address.latitude &&
+                        selectedOrder.shipping_address.longitude && (
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: "10px",
+                              marginTop: "16px",
+                              paddingTop: "16px",
+                              borderTop: "1px solid #e0e0e0",
+                            }}
+                          >
+                            <button
+                              onClick={() =>
+                                mapUtils.openInGoogleMaps(
+                                  selectedOrder.shipping_address.latitude,
+                                  selectedOrder.shipping_address.longitude
+                                )
+                              }
+                              style={{
+                                flex: 1,
+                                backgroundColor: "#2196f3",
+                                color: "white",
+                                padding: "10px 16px",
+                                border: "none",
+                                borderRadius: "6px",
+                                fontWeight: "600",
+                                cursor: "pointer",
+                                fontSize: "14px",
+                                transition: "background-color 0.2s",
+                              }}
+                              onMouseOver={(e) =>
+                                (e.target.style.backgroundColor = "#1976d2")
+                              }
+                              onMouseOut={(e) =>
+                                (e.target.style.backgroundColor = "#2196f3")
+                              }
+                            >
+                              📍 View on Map
+                            </button>
+                            <button
+                              onClick={() =>
+                                mapUtils.getDirections(
+                                  selectedOrder.shipping_address.latitude,
+                                  selectedOrder.shipping_address.longitude
+                                )
+                              }
+                              style={{
+                                flex: 1,
+                                backgroundColor: "#4caf50",
+                                color: "white",
+                                padding: "10px 16px",
+                                border: "none",
+                                borderRadius: "6px",
+                                fontWeight: "600",
+                                cursor: "pointer",
+                                fontSize: "14px",
+                                transition: "background-color 0.2s",
+                              }}
+                              onMouseOver={(e) =>
+                                (e.target.style.backgroundColor = "#388e3c")
+                              }
+                              onMouseOut={(e) =>
+                                (e.target.style.backgroundColor = "#4caf50")
+                              }
+                            >
+                              🧭 Get Directions
+                            </button>
+                          </div>
+                        )}
+
+                      {/* Show warning if no coordinates */}
+                      {(!selectedOrder.shipping_address.latitude ||
+                        !selectedOrder.shipping_address.longitude) && (
+                        <div
+                          style={{
+                            backgroundColor: "#fff3cd",
+                            padding: "10px",
+                            borderRadius: "6px",
+                            marginTop: "12px",
+                            border: "1px solid #ffc107",
+                            fontSize: "13px",
+                            color: "#856404",
+                          }}
+                        >
+                          ⚠️ No GPS coordinates available for this delivery
+                          address
+                        </div>
+                      )}
                     </>
                   ) : (
                     <p>No shipping address provided</p>
@@ -407,14 +560,16 @@ const AdminOrdersList = () => {
                         {selectedOrder.order_items.map((item, index) => (
                           <tr key={index}>
                             <td>
-                              {item.product?.name || `Product #${item.product_id}`}
+                              {item.product?.name ||
+                                `Product #${item.product_id}`}
                             </td>
                             <td>{item.size}</td>
                             <td>{item.quantity}</td>
                             <td>{formatCurrency(item.price_per_unit)}</td>
                             <td>
                               {formatCurrency(
-                                item.item_total || item.price_per_unit * item.quantity
+                                item.item_total ||
+                                  item.price_per_unit * item.quantity
                               )}
                             </td>
                           </tr>

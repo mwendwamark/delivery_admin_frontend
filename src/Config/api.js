@@ -20,7 +20,6 @@ const API_ENDPOINTS = {
 
 // Helper function for API calls
 const apiCall = async (url, options = {}) => {
-  // ... (rest of your apiCall function)
   const defaultOptions = {
     headers: {
       Accept: "application/json",
@@ -48,12 +47,9 @@ const apiCall = async (url, options = {}) => {
 
   const mergedOptions = {
     ...defaultOptions,
-
     ...options,
-
     headers: {
       ...defaultOptions.headers,
-
       ...options.headers,
     },
   };
@@ -78,22 +74,17 @@ const apiCall = async (url, options = {}) => {
     }
 
     const data = await response.json();
-
     return data;
   } catch (error) {
     console.error("API call failed:", error);
-
     throw error;
   }
 };
 
-// Export authAPI and productsAPI as you already have them
 export const authAPI = {
-  // ... (your authAPI code)
   signUp: (userData) => {
     return apiCall(API_ENDPOINTS.AUTH.SIGN_UP, {
       method: "POST",
-
       body: { user: userData },
     });
   },
@@ -101,7 +92,6 @@ export const authAPI = {
   signIn: (credentials) => {
     return apiCall(API_ENDPOINTS.AUTH.SIGN_IN, {
       method: "POST",
-
       body: { user: credentials },
     });
   },
@@ -114,7 +104,6 @@ export const authAPI = {
 };
 
 export const productsAPI = {
-  // ... (your productsAPI code)
   createProduct: (productData, imageFile) => {
     const formData = new FormData();
 
@@ -128,7 +117,6 @@ export const productsAPI = {
 
     return apiCall(API_ENDPOINTS.PRODUCTS, {
       method: "POST",
-
       body: formData,
     });
   },
@@ -136,18 +124,15 @@ export const productsAPI = {
   createProductVariant: (productId, variantData) => {
     return apiCall(API_ENDPOINTS.PRODUCT_VARIANTS(productId), {
       method: "POST",
-
       body: { product_variant: variantData },
     });
   },
 
   getAllProducts: (params = {}) => {
     const queryString = new URLSearchParams(params).toString();
-
     const url = `${API_ENDPOINTS.PRODUCTS}${
       queryString ? `?${queryString}` : ""
     }`;
-
     return apiCall(url);
   },
 
@@ -168,7 +153,6 @@ export const productsAPI = {
 
     return apiCall(`${API_ENDPOINTS.PRODUCTS}/${id}`, {
       method: "PATCH",
-
       body: formData,
     });
   },
@@ -186,7 +170,6 @@ export const productsAPI = {
   updateProductVariant: (variantId, variantData) => {
     return apiCall(API_ENDPOINTS.INDIVIDUAL_PRODUCT_VARIANT(variantId), {
       method: "PATCH",
-
       body: { product_variant: variantData },
     });
   },
@@ -198,29 +181,29 @@ export const productsAPI = {
   },
 };
 
-// Add these to your existing api.js file
-
 // Users API
 export const usersAPI = {
   getAllUsers: (params = {}) => {
     const queryString = new URLSearchParams(params).toString();
-    const url = `${API_BASE_URL}/api/users${queryString ? `?${queryString}` : ""}`;
+    const url = `${API_BASE_URL}/api/users${
+      queryString ? `?${queryString}` : ""
+    }`;
     return apiCall(url);
   },
 
   getUserById: (id) => {
-    return apiCall(`${API_BASE_URL}/users/${id}`);
+    return apiCall(`${API_BASE_URL}/api/users/${id}`);
   },
 
   updateUser: (id, userData) => {
-    return apiCall(`${API_BASE_URL}/users/${id}`, {
+    return apiCall(`${API_BASE_URL}/api/users/${id}`, {
       method: "PATCH",
       body: { user: userData },
     });
   },
 
   deleteUser: (id) => {
-    return apiCall(`${API_BASE_URL}/users/${id}`, {
+    return apiCall(`${API_BASE_URL}/api/users/${id}`, {
       method: "DELETE",
     });
   },
@@ -230,7 +213,9 @@ export const usersAPI = {
 export const ordersAPI = {
   getAllOrders: (params = {}) => {
     const queryString = new URLSearchParams(params).toString();
-    const url = `${API_BASE_URL}/api/orders${queryString ? `?${queryString}` : ""}`;
+    const url = `${API_BASE_URL}/api/orders${
+      queryString ? `?${queryString}` : ""
+    }`;
     return apiCall(url);
   },
 
@@ -250,5 +235,32 @@ export const ordersAPI = {
 
   getReceiptInfo: (id) => {
     return apiCall(`${API_BASE_URL}/api/orders/${id}/receipt_info`);
+  },
+};
+
+// Map Utilities - Simple helper functions
+export const mapUtils = {
+  // Open coordinates in Google Maps
+  openInGoogleMaps: (latitude, longitude) => {
+    if (latitude && longitude) {
+      window.open(
+        `https://www.google.com/maps?q=${latitude},${longitude}`,
+        "_blank"
+      );
+    } else {
+      alert("No coordinates available for this address");
+    }
+  },
+
+  // Get directions to coordinates
+  getDirections: (latitude, longitude) => {
+    if (latitude && longitude) {
+      window.open(
+        `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`,
+        "_blank"
+      );
+    } else {
+      alert("No coordinates available for this address");
+    }
   },
 };

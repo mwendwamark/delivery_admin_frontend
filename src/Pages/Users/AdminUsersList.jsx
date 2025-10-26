@@ -186,10 +186,10 @@ const AdminUsersList = () => {
                   <td>
                     <span
                       className={`verification-badge ${
-                        user.age_verified ? "verified" : "unverified"
+                        user["age_verified?"] ? "verified" : "unverified"
                       }`}
                     >
-                      {user.age_verified ? "✓ Yes" : "✗ No"}
+                      {user["age_verified?"] ? "✓ Verified" : "✗ Unverified"}
                     </span>
                   </td>
                   <td>{formatDate(user.created_at)}</td>
@@ -199,12 +199,6 @@ const AdminUsersList = () => {
                       className="btn-view"
                     >
                       View
-                    </button>
-                    <button
-                      onClick={() => handleDeleteUser(user.id)}
-                      className="btn-delete"
-                    >
-                      Delete
                     </button>
                   </td>
                 </tr>
@@ -276,7 +270,17 @@ const AdminUsersList = () => {
               </div>
               <div className="detail-group">
                 <label>Age Verified:</label>
-                <p>{selectedUser.age_verified ? "Yes" : "No"}</p>
+                <p>
+                  {selectedUser["age_verified?"] ? (
+                    <span style={{ color: "#28a745", fontWeight: "bold" }}>
+                      ✓ Verified
+                    </span>
+                  ) : (
+                    <span style={{ color: "#dc3545", fontWeight: "bold" }}>
+                      ✗ Unverified
+                    </span>
+                  )}
+                </p>
               </div>
               <div className="detail-group">
                 <label>Member Since:</label>
